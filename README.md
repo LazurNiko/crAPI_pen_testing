@@ -77,7 +77,9 @@ Dorsey@2022
 > Click on Configure and highlight the token value
 > 3. Click "Start Live Capture"
 > ![Burp Suite Sequencer](/docs/token_analysis/Sequencer.png "Sequencer screenshot")
+>
 > 4. Use jwt_tools to analyze:
+>
 > ![jwt_tools](/docs/token_analysis/jwt_tool.png "jwt_tool screenshot")
 >
 >
@@ -89,7 +91,7 @@ jwt_tool -t http://127.0.0.1:8888/identity/api/v2/user/dashboard -rh "Authorizat
 ```
 > Change Algorithm value to "none":
 ```
-> jwt_tool eyJhbGciOiJ....dWIip6Ym2QKV_-qv72Q -X a
+jwt_tool eyJhbGciOiJ....dWIip6Ym2QKV_-qv72Q -X a
 ```
 > 2. JWT Crack Attack
 > Generate wordlist:
@@ -102,7 +104,7 @@ jwt_tool eyJhbGciOiJSUzI1NiJ9....2QKV-qv72Q -C -d crapis.txt
 ``` 
 > Or run hashcat to crack secret sign
 ```
-> hashcat -a 0 -m 16500 eyJhbGyKcjHKjhw....akjF46xCpioGU0 /home/lizard/Downloads/rockyou.txt --show
+hashcat -a 0 -m 16500 eyJhbGyKcjHKjhw....akjF46xCpioGU0 /home/lizard/Downloads/rockyou.txt --show
 ```
 >
 > Expected result:
