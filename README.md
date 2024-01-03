@@ -2,7 +2,7 @@
 >
 > ## TC#01 Brute force
 >
->> ### 'We should able to brute force the login page with huge wordlists'
+>> ### 'Should be able to brute force the login page with huge wordlists'
 >
 > Preconditions:
 >
