@@ -122,9 +122,9 @@ hashcat -a 0 -m 16500 eyJhbGyKcjHKjhw....akjF46xCpioGU0 /home/lizard/Downloads/r
 > Scope:
 >
 ```
-GET /identity/api/v2/videos/:id?video_id={value}`
-GET /community/api/v2/community/posts/{value}`
-GET /identity/api/v2/vehicle/{value}/location`
+GET /identity/api/v2/videos/:id?video_id={id}`
+GET /community/api/v2/community/posts/{id}`
+GET /identity/api/v2/vehicle/{id}/location`
 ```
 >
 > Test Data:
