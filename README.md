@@ -150,15 +150,15 @@ GET /identity/api/v2/vehicle/{value}/location`
 >
 > ## TC#01 Broken Function Level Authorization 
 >
->> ### 'Another user shouldn't be able to edit the content of another user'
+>> ### 'Another user shouldn't be able to edit the content of another user using id'
 >
 > Scope:
 >
 ```
 POST /workshop/api/shop/orders/return_order?order_id={id}
 POST /community/api/v2/community/posts/{id}/comment
-PUT /identity/api/v2/user/videos/id
-DELETE /identity/api/v2/user/videos/id
+PUT /identity/api/v2/user/videos/{id}
+DELETE /identity/api/v2/user/videos/{id}
 ```
 >
 > Test Data:
