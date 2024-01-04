@@ -113,3 +113,70 @@ hashcat -a 0 -m 16500 eyJhbGyKcjHKjhw....akjF46xCpioGU0 /home/lizard/Downloads/r
 > 
 ------------------------------------------------------------------------------------------
 >
+> # BOLA
+>
+> ## TC#01 Broken Object Level Authorization 
+>
+>> ### 'User should access the restricted page of another user with leaked token'
+>
+> Scope:
+>
+```
+`GET /identity/api/v2/videos/:id?video_id=`**{value}
+`GET /community/api/v2/community/posts/`**{value}
+`GET /identity/api/v2/vehicle/`**{value}`/location`
+```
+>
+> Test Data:
+> 1. name: UserA; email: userA@test.com; phone: 0112233445
+> 2. name: UserB; email: userB@test.com; phone: 0112233446
+>
+> Steps:
+>
+> 1. Create a UserA account.
+> 2. Use the API and discover requests that involve resource IDs as UserA.
+> 3. Document requests that include resource IDs and should require authorization.
+> 4. Create a UserB account.
+> 5. Obtaining a valid UserB token and attempt to access UserA's resources.
+
+>
+> Expected result:
+> 
+> 1. UserB Should be access for userA page with userA token
+> 
+------------------------------------------------------------------------------------------
+>
+> # BFLA
+>
+> ## TC#01 Broken Function Level Authorization 
+>
+>> ### 'Another user shouldn't be able to edit the content of another user'
+>
+> Scope:
+>
+```
+`POST /workshop/api/shop/orders/return_order?order_id=`**{id}
+`POST /community/api/v2/community/posts/`**{id}`/comment``
+`PUT /identity/api/v2/user/videos/`**id
+```
+>
+> Test Data:
+> 1. name: UserA; email: userA@test.com; phone: 0112233445
+> 2. name: UserB; email: userB@test.com; phone: 0112233446
+>
+> Steps:
+>
+> 1. Create a UserA account.
+> 2. Add new order/post new comment/upload the video on profile page
+> 3. Document requests that include resource IDs and should require authorization.
+> 4. Create a UserB account.
+> 5. Return order/post comment/edit video name of UserA content in scope.
+> 6. Change the value 'user' to 'admin' in url
+> 7. Delete the video of UserA
+>
+>
+> Expected result:
+> 
+> 1. User Shouldn't be able to edit content on another user's page; 
+> 
+------------------------------------------------------------------------------------------
