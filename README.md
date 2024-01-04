@@ -122,9 +122,9 @@ hashcat -a 0 -m 16500 eyJhbGyKcjHKjhw....akjF46xCpioGU0 /home/lizard/Downloads/r
 > Scope:
 >
 ```
-`GET /identity/api/v2/videos/:id?video_id={value}`
-`GET /community/api/v2/community/posts/{value}`
-`GET /identity/api/v2/vehicle/{value}/location`
+GET /identity/api/v2/videos/:id?video_id={value}`
+GET /community/api/v2/community/posts/{value}`
+GET /identity/api/v2/vehicle/{value}/location`
 ```
 >
 > Test Data:
@@ -154,10 +154,12 @@ hashcat -a 0 -m 16500 eyJhbGyKcjHKjhw....akjF46xCpioGU0 /home/lizard/Downloads/r
 >
 > Scope:
 >
-`POST /workshop/api/shop/orders/return_order?order_id={id}`
-`POST /community/api/v2/community/posts/{id}/comment`
-`PUT /identity/api/v2/user/videos/id`
-`DELETE /identity/api/v2/user/videos/id`
+```
+POST /workshop/api/shop/orders/return_order?order_id={id}
+POST /community/api/v2/community/posts/{id}/comment
+PUT /identity/api/v2/user/videos/id
+DELETE /identity/api/v2/user/videos/id
+```
 >
 > Test Data:
 > 1. name: UserA; email: userA@test.com; phone: 0112233445
