@@ -117,7 +117,7 @@ hashcat -a 0 -m 16500 eyJhbGyKcjHKjhw....akjF46xCpioGU0 /home/lizard/Downloads/r
 >
 > ## TC#01 Broken Object Level Authorization 
 >
->> ### 'User should access the restricted page of another user with leaked token'
+>> ### 'User should access the restricted page of another user using id parameter'
 >
 > Scope:
 >
@@ -142,7 +142,7 @@ hashcat -a 0 -m 16500 eyJhbGyKcjHKjhw....akjF46xCpioGU0 /home/lizard/Downloads/r
 >
 > Expected result:
 > 
-> 1. UserB Should be access for userA page with userA token
+> 1. UserB Should be access for userA page using id parameter
 > 
 ------------------------------------------------------------------------------------------
 >
