@@ -115,7 +115,7 @@ hashcat -a 0 -m 16500 eyJhbGyKcjHKjhw....akjF46xCpioGU0 /home/lizard/Downloads/r
 >
 > # BOLA
 >
-> ## TC#01 Broken Object Level Authorization 
+> ## TC#04 Broken Object Level Authorization 
 >
 >> ### 'User should access the restricted page of another user using id parameter'
 >
@@ -148,7 +148,7 @@ GET /identity/api/v2/vehicle/{id}/location`
 >
 > # BFLA
 >
-> ## TC#01 Broken Function Level Authorization 
+> ## TC#05 Broken Function Level Authorization 
 >
 >> ### 'Another user shouldn't be able to edit the content of another user using id'
 >
@@ -181,12 +181,10 @@ DELETE /identity/api/v2/user/videos/{id}
 > 1. User Shouldn't be able to edit content on another user's page; 
 > 
 ------------------------------------------------------------------------------------------
-> 
-wfuzz -d '{"email":"user@test.com", "otp":"FUZZ","password":"12345Qwert!"}' -H 'Content-Type: application/json' -z file,/usr/share/wordlists/seclists/Fuzzing/4-digits-0000-9999.txt -u http://127.0.0.1:8888/identity/api/auth/v2/check-otp --hc 500
 >
 > # Improper Inventory Management
 >
-> ## TC#01 Improper Assets Management
+> ## TC#06 Improper Assets Management
 >
 >> ### 'Should not access to unsupported and non-production versions of an API'
 >
@@ -228,3 +226,73 @@ wfuzz -d '{"email":"user@test.com", "otp":"FUZZ","password":"12345Qwert!"}' -H '
 > 1. User should be able to change the password in old api by fuzzing otp request receiving correct value
 > 
 ------------------------------------------------------------------------------------------
+>
+> # Mass Assignment Attacks
+>
+> ## TC#07 Testing Account Registration for Mass Assignment
+>
+>> ### 'Testing Account Registration for Mass Assignment'
+>
+> Scope:
+>
+```
+GET /identity/api/auth/signup
+```
+>
+> Test Data:
+```
+"isadmin": true,
+"isAdmin":"true",
+"admin": 1,
+"admin": true, 
+"isadmin": 1,
+"isAdmin":"1",
+```
+>
+> Steps:
+>
+> 1. Intercept the request in Burp Suite
+> 2. Brute force new key:value field in request via Burp Suite Intruder - Cluster Bomb
+> 3. Start 'Param miner' extension in Burp suite:
+```
+Select Extensions > Param Miner > Guess params > Guess JSON parameter
+```
+> 
+>
+> Expected result:
+> 
+> 1. Find the parameters where user assigns an admin permissions
+> 
+------------------------------------------------------------------------------------------
+>
+> # Mass Assignment Attacks
+>
+> ## TC#08 Testing 
+>
+>> ### 'Testing products page for Mass Assignment'
+>
+> Scope:
+>
+```
+POST /workshop/api/merchant/contact_mechanic
+POST /workshop/api/shop/orders
+GET /workshop/api/shop/products
+```
+>
+>
+> Steps:
+>
+> 1. Intercept the request in Burp Suite
+> 2. Analyze the response body
+> 3. Change the values in request
+> 4. Check the response
+> 5. Change request method from GET to post
+> 6. Check the response
+> 
+>
+> Expected result:
+> 
+> 1. User shouldn't be able to add own products
+> 
+------------------------------------------------------------------------------------------
+
