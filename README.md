@@ -396,7 +396,7 @@ wfuzz -z file,/usr/share/wordlists/seclists/Fuzzing/nosql.txt  -H "Authorization
 ``` 
 >
 >
-![Fuzzing for NoSql](/docs/injection/noSql_Fuzzing.png "NoSql_fuzzing screenshot") 
+![Fuzzing for NoSql](/docs/Injection/noSql_Fuzzing.png "NoSql_fuzzing screenshot") 
 >
 > Expected result:
 > 
